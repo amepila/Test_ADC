@@ -85,9 +85,9 @@ typedef struct{
 	ADC_InputChannelType ADC_InputChannel;
 }ADC_ConfigType;
 
-uint32 ADC_calculateResult(const ADC_ConfigType* ADC_Config);
+uint32 ADC_calculateResult(const ADC_ConfigType*);
 
-void ADC_init(const ADC_ChannelType* ADC_Config);
+void ADC_init(const ADC_ConfigType*);
 
 
 #endif /* ADC_H_ */

@@ -11,18 +11,11 @@
  */
 #include "MK64F12.h"
 #include "GPIO.h"
-#include "Keyboard.h"
-#include <stdio.h>
-#include "Colors.h"
-#include "PIT.h"
 #include "DataTypeDefinitions.h"
-#define SYSTEM_CLOCK 21000000
-#define DELAY 0.01F
+
 
 static GPIO_interruptFlags_t GPIO_intrStatusFlag;
-uint8 counter_PassW = 0;
-uint8 ctrl=0;
-extern flag_Process;
+
 
 /**This function returns the real value of selecting PIN**/
 uint32 valuePIN(uint8 bit){
@@ -39,34 +32,9 @@ uint32 valuePIN(uint8 bit){
 
 void PORTC_IRQHandler()
 {
-	uint32 i;
-	if((GPIO_readInterrupt(GPIO_C)==COLUMN_1)||(GPIO_readInterrupt(GPIO_C)==COLUMN_2)||(GPIO_readInterrupt(GPIO_C)==COLUMN_3)|| (GPIO_readInterrupt(GPIO_C)==COLUMN_3)){
-		GPIO_intrStatusFlag.flagPortC  = TRUE;
-		GPIO_readInterrupt(GPIO_C);
-		scanKeyPad(GPIO_readInterrupt(GPIO_C));
-		counter_PassW++;
-		/*if((PIT_getIntrStutus0()==TRUE)&&ctrl==0){
-		PIT_delay(PIT_0,60000000,.75);
-			ctrl=1;
-		}
-		if(PIT_getIntrStutus0()==TRUE){
-			GPIO_clearPIN(GPIO_B,BIT19);
-			PIT_clearSelect(PIT_0);
-			ctrl=0;
-		}*/
-		for(int i=1000000;i>0;i--){
-
-		}
-		GPIO_clearInterrupt(GPIO_C);
-	}else{
-		//i = 0;
-	//	flag_Process = PROCESS;
-		GPIO_intrStatusFlag.flagPortC  = TRUE;
-
-		GPIO_clearInterrupt(GPIO_C);
-
-	}
-
+	GPIO_intrStatusFlag.flagPortC  = TRUE;
+	GPIO_readInterrupt(GPIO_C);
+	GPIO_clearInterrupt(GPIO_C);
 }
 
 uint8 GPIO_getIRQStatus(GPIO_portNameType gpio)
